@@ -20,13 +20,6 @@ vector.
 To allow the code to be maximally generic, it is implemented as all macros, and
 is thus header only. Usage is simple:
 
-	/* if this is defined, then the vector will double in capacity each 
-	 * time it runs out of space. if it is not defined, then the vector will
-	 * be conservative, and will have a capcity no larger than necessary.
-	 * having this defined will minimize how often realloc gets called.
-	 */
-	#define LOGARITHMIC_GROWTH
-
 	#include "vector.h"
 	#include <stdio.h>
 
@@ -41,23 +34,23 @@ is thus header only. Usage is simple:
 		int *v = NULL;
 		
 		/* add some elements to the back */
-		vector_push_back(v, 10);
-		vector_push_back(v, 20);
-		vector_push_back(v, 30);
+		v_push_back(v, 10);
+		v_push_back(v, 20);
+		v_push_back(v, 30);
 
 		/* and remove one too */
-		vector_pop_back(v);
+		v_pop_back(v);
 
 		/* print out some stats about the vector */
 		printf("pointer : %p\n",  (void *)v);
-		printf("capacity: %lu\n", vector_capacity(v));
-		printf("size    : %lu\n", vector_size(v));
+		printf("capacity: %lu\n", v_capacity(v));
+		printf("size    : %lu\n", v_size(v));
 
 		/* iterator over the vector using "iterator" style */
 		if(v) {
 			int * it;
 			int i = 0;
-			for(it = vector_begin(v); it != vector_end(v); ++it) {
+			for(it = v_begin(v); it != v_end(v); ++it) {
 				printf("v[%lu] = %d\n", i, *it);
 				++i;
 			}
@@ -66,13 +59,13 @@ is thus header only. Usage is simple:
 		/* iterator over the vector standard indexing too! */
 		if(v) {
 			size_t i;
-			for(i = 0; i < vector_size(v); ++i) {
+			for(i = 0; i < v_size(v); ++i) {
 				printf("v[%d] = %d\n", i, v[i]);
 			}
 		}		
 
 		/* well, we don't have destructors, so let's clean things up */
-		vector_free(v);
+		v_free(v);
 		
 		return 0;
 	}
